@@ -1,6 +1,18 @@
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
+import { Container } from "react-bootstrap";
 function App() {
   return (
-    <h1>Welcome to perenial Mart</h1>
+    <>
+    <Header/>
+    <main className="text-center py-3">
+      <Container>
+        <p>Welcome to PerenialMart</p>
+      </Container>
+    </main>
+    <Footer/>
+    </>
+    
   );
 }
 
