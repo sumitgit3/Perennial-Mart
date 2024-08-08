@@ -4,6 +4,7 @@ import '../assets/styles/rating.css'
 const Rating = ({ value, text }) => {
     return (
         <div className='rating'>
+             {/* Check if value is greater than or equal to 1 to display a full star ,do this 5 times=>can be done alternatively by storing data in array by calculation and then render*/}
             <span>
                 {value >= 1 ? <FaStar /> : value >= 0.5 ? <FaStarHalfAlt /> : <FaRegStar />}
             </span>
