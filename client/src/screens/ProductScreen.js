@@ -1,15 +1,27 @@
-import React from 'react'
+import { React, useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, ListGroupItem, Card, Button } from 'react-bootstrap'
-import products from '../DummyProduct.js' //all the product data
+import axios from 'axios'
 import Rating from '../Components/Rating.js'
 const ProductScreen = () => {
+    const [product, setProduct] = useState({});
     //id is destructured with name as productId from url of the route
     const { id: productId } = useParams();
-    //find the current product from all products using id
-    const product = products.find((product) => product._id === productId);
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                const { data } = await axios.get(`/api/products/${productId}`);
+                setProduct(data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        }
+        fetchProduct();
+    }, [productId]); //will run every time productId is changed,so new product will be fetched
+
     return (
-        <>  
+        <>
             {/* moving goback button to left */}
             <div className='text-start'>
                 <Link to='/' className='btn btn-dark my-3' >
