@@ -8,6 +8,6 @@ const userSchema = new mongoose.Schema({
     //one to many relationship with orders,so reference will be in orders
 }, { timestamps: true });
 
-const User = new mongoose.Model('User', userSchema);
+const User = new mongoose.model('User', userSchema);
 
 export default User;

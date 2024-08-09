@@ -6,7 +6,7 @@ const orderSchema = new mongoose.Schema({
         name: { type: String, required: true },
         image: { type: String, required: true },
         qty: { type: Number, required: true },
-        price: { type: Number, required },
+        price: { type: Number, required:true },
         product: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Product' }
     }],//orderItems will contain many product(thats why []) and its name,image,qty,price(inside array is multiple embedded objects of order Items)
     shippingAddress: {
@@ -24,7 +24,7 @@ const orderSchema = new mongoose.Schema({
         email_address: { type: String }
     },
     isPaid: { type: Boolean, required: true, default: false },
-    paidAt: { type: date },
+    paidAt: { type: Date }, //capital D
     //prices breakdown of order
     itemsPrice: { type: Number, required: true, default: 0.0 },
     taxPrice: { type: Number, required: true, default: 0.0 },
@@ -32,9 +32,9 @@ const orderSchema = new mongoose.Schema({
     totalPrice: { type: Number, required: true, default: 0.0 },
     //delivery details
     isDelivered: { type: Boolean, required: true, default: false },
-    deliveredAt: { type: date },
+    deliveredAt: { type: Date },
 }, { timestamps: true });
 
-const Order = mongoose.Model('Order', orderSchema);
+const Order = mongoose.model('Order', orderSchema);
 
 export default Order;
