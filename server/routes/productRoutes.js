@@ -9,9 +9,16 @@ router.get('/', asyncHandler(async (req,res)=>{
     res.json(products);
 }));
 //route 2 : Get method: Fetch product by id
-router.get('/:id',asyncHandler( async (req,res)=>{
+router.get('/:id',asyncHandler( async (req,res,next)=>{
     const product = await Product.findById(req.params.id);
-    res.json(product);
+    if(product){
+        res.json(product);
+    }
+    else {
+        res.status(404);
+        throw new Error('Resource not found');
+    }
+        
 }));
 
 
