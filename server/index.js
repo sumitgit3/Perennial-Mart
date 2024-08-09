@@ -2,7 +2,7 @@ import express from 'express'
 import { connect } from 'mongoose';
 import dotenv from 'dotenv'
 dotenv.config();
-import products from './DummyProduct.js';
+import productRouter from './routes/productRoutes.js'
 
 //create express server instance
 const app = express();
@@ -16,14 +16,8 @@ connect(process.env.MONGO_URI)
 //middleware->It reads the JSON payload from the request body, converts it into a JavaScript object, and attaches this object to the req.body property.
 app.use(express.json());
 
-//routes
-app.get('/api/products',(req,res)=>{
-    res.json(products);
-})
-app.get('/api/products/:id',(req,res)=>{
-    const product = products.find((product)=>product._id === req.params.id);
-    res.json(product);
-})
+//product route -> use express router middleware
+app.use('/api/products',productRouter);
 
 //server listening
 app.listen(port,()=>{
