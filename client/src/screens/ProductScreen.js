@@ -74,7 +74,7 @@ const ProductScreen = () => {
                                             <Row>
                                                 <Col>Qty</Col>
                                                 <Col>
-                                                    <FormControl as='select' value={qty} onChange={(e)=>{setQty(e.target.value)}}>
+                                                    <FormControl as='select' value={qty} onChange={(e)=>{setQty(Number(e.target.value))}}>
                                                         {/* create options for no of qty in stocks */}
                                                         {[...Array(product.countInStock).keys()].map((x)=>(
                                                             <option key={x+1} value={x+1}>{x+1}</option>
