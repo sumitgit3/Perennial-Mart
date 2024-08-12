@@ -6,6 +6,7 @@ import { useGetProductDetailsQuery } from '../redux/features/products/productApi
 import Message from '../Components/Message.js'
 const ProductScreen = () => {
     const { id: productId } = useParams();
+    //fetch whenever productId change,first check if available in cache otherwise fetch
     const { data: product, isLoading, isError } = useGetProductDetailsQuery(productId);
 
     return (

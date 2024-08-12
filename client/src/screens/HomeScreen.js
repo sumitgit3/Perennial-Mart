@@ -5,6 +5,7 @@ import { useGetProductsQuery } from '../redux/features/products/productApiSlice'
 import { Spinner } from 'react-bootstrap'
 import Message from '../Components/Message'
 const HomeScreen = () => {
+    //fetch data once
     const { data: products, isLoading, isError } = useGetProductsQuery();
     return (
         <>
