@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, ListGroupItem, Card, Button,Spinner } from 'react-bootstrap'
 import Rating from '../Components/Rating.js'
 import { useGetProductDetailsQuery } from '../redux/features/products/productApiSlice.js'
+import Message from '../Components/Message.js'
 const ProductScreen = () => {
     const { id: productId } = useParams();
     const { data: product, isLoading, isError } = useGetProductDetailsQuery(productId);
@@ -15,7 +16,7 @@ const ProductScreen = () => {
                     Go Back
                 </Link>
             </div>
-            {isLoading ? (<Spinner />) : isError ? (<div>{isError?.data?.message || isError.error}</div>) : (<>
+            {isLoading ? (<Spinner />) : isError ? (<Message variant={'danger'}>{isError?.data?.message || isError.error}</Message>) : (<>
                 <Row>
                     <Col md={5}>
                         <Image src={product.image} alt={product.name} fluid />
