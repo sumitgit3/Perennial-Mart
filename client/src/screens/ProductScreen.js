@@ -1,13 +1,25 @@
-import { React } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { Row, Col, Image, ListGroup, ListGroupItem, Card, Button,Spinner } from 'react-bootstrap'
+import { React, useState } from 'react'
+import { useParams, Link, useNavigate } from 'react-router-dom'
+import { Row, Col, Image, ListGroup, ListGroupItem, Card, Button, Spinner, FormControl } from 'react-bootstrap'
 import Rating from '../Components/Rating.js'
 import { useGetProductDetailsQuery } from '../redux/features/products/productApiSlice.js'
 import Message from '../Components/Message.js'
+import { useDispatch } from 'react-redux'
+import {cartActions} from '../redux/features/cart/cartSlice.js'
 const ProductScreen = () => {
+    const [qty, setQty] = useState(1);
     const { id: productId } = useParams();
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     //fetch whenever productId change,first check if available in cache otherwise fetch
     const { data: product, isLoading, isError } = useGetProductDetailsQuery(productId);
+
+    //dispatch the add to cart action and navigate to cart page
+    const addToCartHandler = ()=> {
+        dispatch(cartActions.addToCart({...product,qty}));
+        navigate('/cart');
+    }
 
     return (
         <>
@@ -55,9 +67,27 @@ const ProductScreen = () => {
                                         <Col>{product.countInStock === 0 ? 'Out of Stock' : 'In Stock'}</Col>
                                     </Row>
                                 </ListGroupItem>
+                                {
+                                    product.countInStock > 0 &&
+                                    (<>
+                                        <ListGroupItem>
+                                            <Row>
+                                                <Col>Qty</Col>
+                                                <Col>
+                                                    <FormControl as='select' value={qty} onChange={(e)=>{setQty(e.target.value)}}>
+                                                        {/* create options for no of qty in stocks */}
+                                                        {[...Array(product.countInStock).keys()].map((x)=>(
+                                                            <option key={x+1} value={x+1}>{x+1}</option>
+                                                        ))}
+                                                    </FormControl>
+                                                </Col>
+                                            </Row>
+                                        </ListGroupItem>
+                                    </>)
+                                }
                                 <ListGroupItem>
                                     {/* disable button if out of stock */}
-                                    <Button type='button' className='btn-block btn-dark' disabled={product.countInStock === 0}>
+                                    <Button type='button' className='btn-block btn-dark' disabled={product.countInStock === 0} onClick={addToCartHandler}>
                                         Add to Cart
                                     </Button>
                                 </ListGroupItem>
