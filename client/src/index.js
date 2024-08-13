@@ -9,6 +9,7 @@ import './index.css';
 import App from './App';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
+import CartScreen from './screens/CartScreen';
 import store from './redux/app/store';
 
 const router = createBrowserRouter(
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
        {/* Nested route: HomeScreen component is rendered when path is '/' ,index={true} so only one page will be displayed on'/' */}
         <Route index={true} path='/' element={<HomeScreen/>}/>
         <Route path='/product/:id' element={<ProductScreen/>}/>
+        <Route path='/cart' element={<CartScreen/>}/>
     </Route>
   )
 )
