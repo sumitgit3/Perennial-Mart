@@ -5,6 +5,7 @@ dotenv.config();
 import productRouter from './routes/productRoutes.js'
 import userRouter from './routes/userRoutes.js'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
+import cookieParser from 'cookie-parser'
 
 //create express server instance
 const app = express();
@@ -19,6 +20,8 @@ connect(process.env.MONGO_URI)
 app.use(express.json());
 //urlencoder parser middleware
 app.use(express.urlencoded({extended:true}));
+//cookie parser middleware
+app.use(cookieParser());
 
 
 //product route -> use express router middleware

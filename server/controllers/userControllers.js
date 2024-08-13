@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 const authUser = asyncHandler(async(req,res)=>{
     const {email,password} = req.body;
     const user = await User.findOne({email});
-    if(user && (await user.matchPassword(password))) { //only check password after checking user Exist
+    if(user && (await user.matchPassword(password))) { //only check password after checking user Exist, model method can be used by its object
         const token = jwt.sign({userId:user._id},process.env.JWT_SECRET_KEY,{
             expiresIn:'30d'
         });
