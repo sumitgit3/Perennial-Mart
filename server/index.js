@@ -3,6 +3,7 @@ import { connect } from 'mongoose';
 import dotenv from 'dotenv'
 dotenv.config();
 import productRouter from './routes/productRoutes.js'
+import userRouter from './routes/userRoutes.js'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 
 //create express server instance
@@ -16,10 +17,14 @@ connect(process.env.MONGO_URI)
 
 //middleware->It reads the JSON payload from the request body, converts it into a JavaScript object, and attaches this object to the req.body property.
 app.use(express.json());
+//urlencoder parser middleware
+app.use(express.urlencoded({extended:true}));
 
 
 //product route -> use express router middleware
 app.use('/api/products',productRouter);
+//user route
+app.use('/api/users',userRouter);
 
 //route not found middleware //only catches requests no other middleware has handled
 app.use(notFound);
