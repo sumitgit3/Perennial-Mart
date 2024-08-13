@@ -19,7 +19,7 @@ const cartSlice = createSlice({
             if (itemExist) {
                 // Update the existing item's quantity or properties
                 state.cartItems = state.cartItems.map((product) =>
-                    product._id === item._id ? {...item,qty:item.qty+product.qty} : product
+                    product._id === item._id ? item : product
                 );
             } else {
                 // Add the new item to the cart
