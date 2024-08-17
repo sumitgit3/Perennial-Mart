@@ -117,7 +117,7 @@ const PlaceOrderScreen = () => {
                                 <ListGroupItem><Message variant={'danger'}>{isError}</Message></ListGroupItem>
                             ):(<></>)}
                             <ListGroupItem>
-                                <Button onClick={placeOrderHandler} type='button' className='btn-block' variant='primary'>Place Order</Button>
+                                <Button onClick={placeOrderHandler} type='button' className='btn-block' variant='primary' disabled={cart.cartItems.length===0}>Place Order</Button>
                             </ListGroupItem>
                         </ListGroup>
                         {isLoading && <Spinner/>}
