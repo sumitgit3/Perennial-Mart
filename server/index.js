@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 dotenv.config();
 import productRouter from './routes/productRoutes.js'
 import userRouter from './routes/userRoutes.js'
+import orderRouter from './routes/orderRoutes.js'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 import cookieParser from 'cookie-parser'
 
@@ -28,6 +29,8 @@ app.use(cookieParser());
 app.use('/api/products',productRouter);
 //user route
 app.use('/api/users',userRouter);
+//order route
+app.use('/api/orders',orderRouter);
 
 //route not found middleware //only catches requests no other middleware has handled
 app.use(notFound);
