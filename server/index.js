@@ -32,6 +32,9 @@ app.use('/api/users',userRouter);
 //order route
 app.use('/api/orders',orderRouter);
 
+//we are storing client id in server ,so paypal can get it
+app.get('/api/config/paypal',(req,res)=>res.send({clientId:process.env.PAYPAL_CLIENT_ID}));
+
 //route not found middleware //only catches requests no other middleware has handled
 app.use(notFound);
 //custom error handler should be last middleware in the stack ,so it catches any error occur while request processing
