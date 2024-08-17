@@ -14,7 +14,7 @@ const PaymentScreen = () => {
     const shippingAddress = useSelector((state)=>state.cart.shippingAddress);
 
     useEffect(()=>{
-        if(!shippingAddress){
+        if(!shippingAddress.address){
             navigate('/shipping');
         }
     },[shippingAddress,navigate]);
