@@ -1,5 +1,5 @@
 import express from 'express'
-import { createProduct, fetchAllProducts,fetchProduct } from '../controllers/productControllers.js';
+import { createProduct, fetchAllProducts,fetchProduct,updateProduct } from '../controllers/productControllers.js';
 import { protect,admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -10,6 +10,8 @@ router.route('/').get(fetchAllProducts);
 router.route('/:id').get(fetchProduct);
 //route 3: POST ,create a product
 router.post('/',protect,admin,createProduct);
+//route 4: PUT method: update product by id
+router.route('/:id').put(protect,admin,updateProduct);
 
 
 export default router;
