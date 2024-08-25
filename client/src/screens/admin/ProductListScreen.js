@@ -4,10 +4,11 @@ import { LinkContainer } from 'react-router-bootstrap'
 import {FaEdit, FaTrash } from 'react-icons/fa'
 import {toast} from 'react-toastify'
 import Message from '../../Components/Message'
-import { useGetProductsQuery,useCreateProductMutation } from '../../redux/features/products/productApiSlice.js'
+import { useGetProductsQuery,useCreateProductMutation,useDeleteProductMutation } from '../../redux/features/products/productApiSlice.js'
 const ProductListScreen = () => {
     const { data: products, isLoading, error ,refetch} = useGetProductsQuery();
     const [createProduct,{isLoading:loadingCreate}] = useCreateProductMutation();
+    const [deleteProduct,{isLoading:loadingDelete}] = useDeleteProductMutation();
 
     const createProductHandler = async()=>{
         if(window.confirm('Are you Sure? Do you want to create a new Product')){
@@ -20,8 +21,17 @@ const ProductListScreen = () => {
         }
     }
 
-    const deleteHandler = (id)=>{
-        console.log('delete',id);
+    const deleteHandler = async (id)=>{
+        if(window.confirm('Do you want to delete this item?')){
+            try {
+                await deleteProduct(id);
+                toast.success('Product Deleted');
+                refetch();
+            } 
+            catch (err) {
+                toast.error(err?.data?.message||err?.error);
+            }
+        }
     }
     return (
         <>
@@ -36,6 +46,7 @@ const ProductListScreen = () => {
                 </Col>
             </Row>
             {loadingCreate && <Spinner/>}
+            {loadingDelete && <Spinner/>}
             {isLoading ? <Spinner /> : error ? (<Message variant='danger'>{error?.data?.message || error?.error}</Message>) : (
                 <>
                     <Table striped hover responsive className='table-sm'>

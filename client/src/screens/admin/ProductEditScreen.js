@@ -82,6 +82,7 @@ const ProductEditScreen = () => {
             <FormContainer>
                 <h1>Edit Product</h1>
                 {loadingUpdate && <Spinner animation="border" />}
+                {loadingUpload && <Spinner animation="border" /> }
                 {isLoading ? (
                     <Spinner animation="border" />
                 ) : error ? (
