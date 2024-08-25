@@ -5,8 +5,10 @@ dotenv.config();
 import productRouter from './routes/productRoutes.js'
 import userRouter from './routes/userRoutes.js'
 import orderRouter from './routes/orderRoutes.js'
+import uploadRouter from './routes/uploadRoutes.js'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 import cookieParser from 'cookie-parser'
+import path from 'path'
 
 //create express server instance
 const app = express();
@@ -31,9 +33,16 @@ app.use('/api/products',productRouter);
 app.use('/api/users',userRouter);
 //order route
 app.use('/api/orders',orderRouter);
+//upload route
+app.use('/api/upload',uploadRouter);
 
 //we are storing client id in server ,so paypal can get it
 app.get('/api/config/paypal',(req,res)=>res.send({clientId:process.env.PAYPAL_CLIENT_ID}));
+
+//setting upload folder static
+const __dirname = path.resolve(); //set __dirname to current directory in es module
+//first paramter is base url which will be used to serve static files,second is the middleware to make upload folder static
+app.use('/uploads',express.static(path.join(__dirname,'uploads')));
 
 //route not found middleware //only catches requests no other middleware has handled
 app.use(notFound);
