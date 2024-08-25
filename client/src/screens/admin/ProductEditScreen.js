@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useUpdateProductMutation, useGetProductDetailsQuery } from '../../redux/features/products/productApiSlice'
+import { useUpdateProductMutation, useGetProductDetailsQuery, useUploadProductImageMutation } from '../../redux/features/products/productApiSlice'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Form, Button, Spinner } from 'react-bootstrap'
 import Message from '../../Components/Message'
@@ -21,11 +21,13 @@ const ProductEditScreen = () => {
 
     const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation();
 
+    const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation();
+
     useEffect(() => {
         if (product) {
             setName(product.name);
             setPrice(product.price);
-            setImage(product.image);  
+            setImage(product.image);
             setDescription(product.description);
             setBrand(product.brand);
             setCategory(product.category);
@@ -46,7 +48,7 @@ const ProductEditScreen = () => {
             countInStock,
             description
         };
-        console.log(updatedProduct.productId,"test");
+        console.log(updatedProduct.productId, "test");
         try {
             await updateProduct(updatedProduct).unwrap();
             toast.success('Product Updated');
@@ -55,6 +57,21 @@ const ProductEditScreen = () => {
         } catch (err) {
             toast.error(err?.data?.message || err?.error);
         }
+    }
+
+    const uploadFileHandler = async (e) => {
+        // FormData object is a built-in JavaScript object that allows you to easily construct and send form data via XMLHttpRequest or fetch. 
+        const formData = new FormData();
+        formData.append('image', e.target.files[0]);
+        try {
+            const res = await uploadProductImage(formData).unwrap();
+            toast.success(res.message);
+            setImage(res.image);
+        } 
+        catch (err) {
+            toast.error(err?.data?.message || err.error);
+        }
+
     }
 
     return (
@@ -98,7 +115,18 @@ const ProductEditScreen = () => {
                                 onChange={(e) => setBrand(e.target.value)}
                             ></Form.Control>
                         </Form.Group>
-                        {/* image input */}
+                        <Form.Group controlId='image' className='my-2'>
+                            <Form.Label>Image Upload</Form.Label>
+                            {/* url to be uploaded with product */}
+                            <Form.Control
+                                type='text'
+                                value={image}
+                                placeholder='Enter Image Url'
+                                onChange={(e) => setImage(e.target.value)}
+                            ></Form.Control>
+                            {/* upload image to server */}
+                            <Form.Control type='file' label='Choose File' onChange={uploadFileHandler}></Form.Control>
+                        </Form.Group>
                         <Form.Group controlId='category' className='my-2'>
                             <Form.Label>Category</Form.Label>
                             <Form.Control
@@ -111,7 +139,7 @@ const ProductEditScreen = () => {
                         <Form.Group controlId='countInStock' className='my-2'>
                             <Form.Label>Count In Stock</Form.Label>
                             <Form.Control
-                                type='number'  
+                                type='number'
                                 value={countInStock}
                                 placeholder='Enter Count In Stock'
                                 onChange={(e) => setCountInStock(Number(e.target.value))}
