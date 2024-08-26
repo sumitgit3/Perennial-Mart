@@ -118,28 +118,68 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 //@route GET /api/users/
 //access : PRIVATE/admin
 const getUsers = asyncHandler(async (req, res) => {
-    res.send('get users profile');
+    const users = await User.find({}).select('-password');
+    res.status(200).json(users);
 });
 
 //@desc get user profile by id
 //@route GET /api/users/:id
 //access : PRIVATE/admin
 const getUserByID = asyncHandler(async (req, res) => {
-    res.send('get user by id');
+    const user = await User.findById({_id:`${req.params.id}`}).select('-password');
+    if (user) {
+        res.status(200).send(user);
+    }
+    else {
+        res.status(404);
+        throw new Error('User not found');
+    }
+
 });
 
 //@desc delete user by id
 //@route DELETE /api/users/:id
 //access : PRIVATE/admin
 const deleteUser = asyncHandler(async (req, res) => {
-    res.send('delete user');
+    const user = await User.findById({_id:`${req.params.id}`});
+    if(user){
+        if(user.isAdmin){
+            res.status(400);//client error
+            throw new Error('Admin user cannot be Deleted');
+        }
+        else{
+            await User.deleteOne({_id:`${req.params.id}`});
+            res.status(200).json({message:'User Deleted'});
+        }   
+    }
+    else{
+        res.status(404);
+        throw new Error('User not found');
+    }
 });
 
 //@desc update user by id
 //@route PUT /api/users/:id
 //access : PRIVATE/admin
 const updateUser = asyncHandler(async (req, res) => {
-    res.send('update user');
+    const user = await User.findById(req.user._id);
+    if(user){
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+        user.isAdmin = Boolean(req.body.isAdmin);
+
+        const updatedUser =await user.save(); //saving so mongoose pre hasing method run
+        res.status(200).json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin
+        });
+    }
+    else {
+        req.status(404);
+        throw new Error('User not Found');
+    }
 });
 
 export {
