@@ -1,5 +1,5 @@
 import express from 'express'
-import { createProduct, deleteProduct, fetchAllProducts,fetchProduct,updateProduct } from '../controllers/productControllers.js';
+import { createProduct, deleteProduct, fetchAllProducts,fetchProduct,updateProduct,createProductReview } from '../controllers/productControllers.js';
 import { protect,admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -14,5 +14,7 @@ router.post('/',protect,admin,createProduct);
 router.route('/:id').put(protect,admin,updateProduct);
 //route 5: DELETE method: delete product by id
 router.route('/:id').delete(protect,admin,deleteProduct);
+//route 5: POST method: create product review by id
+router.route('/:id/reviews').post(protect,createProductReview);
 
 export default router;
