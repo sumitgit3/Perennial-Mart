@@ -34,6 +34,7 @@ const router = createBrowserRouter(
     <Route path='/' element={<App />}>
       {/* Nested route: HomeScreen component is rendered when path is '/' ,index={true} so only one page will be displayed on'/' */}
       <Route index={true} path='/' element={<HomeScreen />} />
+      <Route path='/page/:pageNumber' element={<HomeScreen />} />
       <Route path='/product/:id' element={<ProductScreen />} />
       <Route path='/cart' element={<CartScreen />} />
       <Route path='/login' element={<LoginScreen />} />
@@ -49,6 +50,7 @@ const router = createBrowserRouter(
       <Route path='' element={<AdminRoute/>}>
         <Route path='/admin/orderlist' element={<OrderListScreen />} />
         <Route path='/admin/productlist' element={<ProductListScreen />} />
+        <Route path='/admin/productlist/:pageNumber' element={<ProductListScreen />} />
         <Route path='/admin/product/:id/edit' element={<ProductEditScreen/>} />
         <Route path='/admin/userList' element={<UserListScreen/>} />
         <Route path='/admin/user/:id/edit' element={<UserEditScreen/>} />

@@ -5,9 +5,14 @@ import Product from '../models/productModel.js'
 //@route GET /api/products
 //access : PUBLIC
 const fetchAllProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find(); //fetch all documents from collection
-  res.json(products);
+  const pageSize = 4;
+  const pageNumber = req.query.pageNumber || 1;
+  const count = await Product.countDocuments();
+  const totalNumberOfPages = Math.ceil(count/pageSize);
 
+  //find pageSize number of page and skip all pages before current page
+  const products = await Product.find().limit(pageSize).skip(pageSize * (pageNumber-1)); 
+  res.json({products,pageNumber,totalNumberOfPages});
 });
 //@desc Fetch  a Product
 //@route GET /api/products/:id
