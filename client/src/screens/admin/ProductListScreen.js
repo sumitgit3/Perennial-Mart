@@ -1,38 +1,38 @@
 import React from 'react'
 import { Table, Button, Spinner, Row, Col } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
-import {FaEdit, FaTrash } from 'react-icons/fa'
-import {toast} from 'react-toastify'
+import { FaEdit, FaTrash } from 'react-icons/fa'
+import { toast } from 'react-toastify'
 import Message from '../../Components/Message'
-import { useGetProductsQuery,useCreateProductMutation,useDeleteProductMutation } from '../../redux/features/products/productApiSlice.js'
+import { useGetProductsQuery, useCreateProductMutation, useDeleteProductMutation } from '../../redux/features/products/productApiSlice.js'
 import { useParams } from 'react-router-dom'
 import Paginate from '../../Components/Paginate.jsx'
 const ProductListScreen = () => {
-    const {pageNumber} = useParams();
-    const { data, isLoading, error ,refetch} = useGetProductsQuery(pageNumber);
-    const [createProduct,{isLoading:loadingCreate}] = useCreateProductMutation();
-    const [deleteProduct,{isLoading:loadingDelete}] = useDeleteProductMutation();
+    const { pageNumber } = useParams();
+    const { data, isLoading, error, refetch } = useGetProductsQuery({ pageNumber });
+    const [createProduct, { isLoading: loadingCreate }] = useCreateProductMutation();
+    const [deleteProduct, { isLoading: loadingDelete }] = useDeleteProductMutation();
 
-    const createProductHandler = async()=>{
-        if(window.confirm('Are you Sure? Do you want to create a new Product')){
+    const createProductHandler = async () => {
+        if (window.confirm('Are you Sure? Do you want to create a new Product')) {
             try {
                 await createProduct();
                 refetch();//refetches all products after creation
             } catch (err) {
-                toast.error(err?.data?.message||err?.error);
+                toast.error(err?.data?.message || err?.error);
             }
         }
     }
 
-    const deleteHandler = async (id)=>{
-        if(window.confirm('Do you want to delete this item?')){
+    const deleteHandler = async (id) => {
+        if (window.confirm('Do you want to delete this item?')) {
             try {
                 await deleteProduct(id);
                 toast.success('Product Deleted');
                 refetch();
-            } 
+            }
             catch (err) {
-                toast.error(err?.data?.message||err?.error);
+                toast.error(err?.data?.message || err?.error);
             }
         }
     }
@@ -48,8 +48,8 @@ const ProductListScreen = () => {
                     </Button>
                 </Col>
             </Row>
-            {loadingCreate && <Spinner/>}
-            {loadingDelete && <Spinner/>}
+            {loadingCreate && <Spinner />}
+            {loadingDelete && <Spinner />}
             {isLoading ? <Spinner /> : error ? (<Message variant='danger'>{error?.data?.message || error?.error}</Message>) : (
                 <>
                     <Table striped hover responsive className='table-sm'>
@@ -75,18 +75,20 @@ const ProductListScreen = () => {
                                         <LinkContainer to={`/admin/product/${product._id}/edit`}>
                                             <Button variant='light' className='btn-sm mx-2'><FaEdit /></Button>
                                         </LinkContainer>
-                                        <Button variant='danger' className='btn-sm' onClick={()=>deleteHandler(product._id)}><FaTrash style={{color:'white'}} /></Button>
+                                        <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(product._id)}><FaTrash style={{ color: 'white' }} /></Button>
                                     </td>
                                 </tr>
                             )
                             )}
                         </tbody>
                     </Table>
+                    <div className='d-flex justify-content-center mt-5'>
+                        <Paginate pageNumber={pageNumber || 1} totalNumberOfPages={data.totalNumberOfPages} isAdmin={true} />
+                    </div>
                 </>
             )}
-            <div className='d-flex justify-content-center mt-5'>
-                <Paginate pageNumber={pageNumber || 1} totalNumberOfPages={data.totalNumberOfPages} isAdmin={true}/>
-            </div>
+
+
         </>
     )
 }

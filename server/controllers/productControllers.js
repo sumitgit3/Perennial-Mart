@@ -7,11 +7,14 @@ import Product from '../models/productModel.js'
 const fetchAllProducts = asyncHandler(async (req, res) => {
   const pageSize = 4;
   const pageNumber = req.query.pageNumber || 1;
-  const count = await Product.countDocuments();
+
+  const keyword = req.query.keyword ? {name: {$regex : req.query.keyword , $options : 'i'}} : {} ;
+
+  const count = await Product.countDocuments({...keyword});
   const totalNumberOfPages = Math.ceil(count/pageSize);
 
   //find pageSize number of page and skip all pages before current page
-  const products = await Product.find().limit(pageSize).skip(pageSize * (pageNumber-1)); 
+  const products = await Product.find({...keyword}).limit(pageSize).skip(pageSize * (pageNumber-1)); 
   res.json({products,pageNumber,totalNumberOfPages});
 });
 //@desc Fetch  a Product
