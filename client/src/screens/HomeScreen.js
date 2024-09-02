@@ -6,6 +6,7 @@ import { Spinner } from 'react-bootstrap'
 import { useParams,Link } from 'react-router-dom'
 import Paginate from '../Components/Paginate'
 import Message from '../Components/Message'
+import ProductCarousel from '../Components/ProductCarousel'
 const HomeScreen = () => {
     const { pageNumber } = useParams();
     const { keyword } = useParams();
@@ -13,12 +14,13 @@ const HomeScreen = () => {
     const { data, isLoading, isError } = useGetProductsQuery({ pageNumber, keyword });
     return (
         <>
-            {keyword && 
+            {!keyword ? <ProductCarousel/> :(
                 <div className='text-start'>
                     <Link to='/' className='btn btn-dark mb-2' >
                     Go Back
                     </Link>
                 </div>
+                )
             }
             {
                 isLoading ? (<Spinner />) : isError ? (<Message variant={'danger'}>{isError?.data?.message || isError.error}</Message>) : (<>

@@ -5,7 +5,7 @@ import Product from '../models/productModel.js'
 //@route GET /api/products
 //access : PUBLIC
 const fetchAllProducts = asyncHandler(async (req, res) => {
-  const pageSize = 4;
+  const pageSize = 8;
   const pageNumber = req.query.pageNumber || 1;
 
   const keyword = req.query.keyword ? {name: {$regex : req.query.keyword , $options : 'i'}} : {} ;
@@ -118,4 +118,12 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
-export { fetchAllProducts, fetchProduct, createProduct, updateProduct ,deleteProduct,createProductReview};
+//@desc Fetch Top Products
+//@route GET /api/products/top
+//access : PUBLIC
+const fetchTopProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({rating : -1}).limit(req.query.numberOfProducts);
+  res.status(200).json(products);
+});
+
+export { fetchAllProducts, fetchProduct, createProduct, updateProduct ,deleteProduct,createProductReview,fetchTopProducts};
