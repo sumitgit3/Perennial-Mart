@@ -9,6 +9,7 @@ router.get('/top',fetchTopProducts);
 //route 1: Get method:Fetch all Products 
 router.route('/').get(fetchAllProducts);
 //route 2 : Get method: Fetch product by id
+// This route matches '/:id' for any value passed as an ID (e.g., '/123', '/abc') so /top needs to be at top
 router.route('/:id').get(fetchProduct);
 //route 3: POST ,create a product
 router.post('/',protect,admin,createProduct);

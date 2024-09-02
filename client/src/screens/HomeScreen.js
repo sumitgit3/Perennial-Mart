@@ -7,13 +7,15 @@ import { useParams,Link } from 'react-router-dom'
 import Paginate from '../Components/Paginate'
 import Message from '../Components/Message'
 import ProductCarousel from '../Components/ProductCarousel'
+import Meta from '../Components/Meta'
 const HomeScreen = () => {
     const { pageNumber } = useParams();
     const { keyword } = useParams();
     //fetch data once
     const { data, isLoading, isError } = useGetProductsQuery({ pageNumber, keyword });
     return (
-        <>
+        <>  
+            <Meta/>
             {!keyword ? <ProductCarousel/> :(
                 <div className='text-start'>
                     <Link to='/' className='btn btn-dark mb-2' >

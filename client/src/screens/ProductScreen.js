@@ -7,6 +7,7 @@ import Message from '../Components/Message.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { cartActions } from '../redux/features/cart/cartSlice.js'
 import { toast } from 'react-toastify'
+import Meta from '../Components/Meta.jsx'
 const ProductScreen = () => {
     const [qty, setQty] = useState(1);
     const [rating, setRating] = useState(1);
@@ -43,7 +44,8 @@ const ProductScreen = () => {
     }
 
     return (
-        <>
+        <>  
+            
             {/* moving goback button to left */}
             <div className='text-start'>
                 <Link to='/' className='btn btn-dark my-3' >
@@ -51,6 +53,7 @@ const ProductScreen = () => {
                 </Link>
             </div>
             {isLoading ? (<Spinner />) : isError ? (<Message variant={'danger'}>{isError?.data?.message || isError.error}</Message>) : (<>
+                <Meta title={product.name}/>
                 <Row>
                     <Col md={5}>
                         <Image src={product.image} alt={product.name} fluid />
