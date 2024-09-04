@@ -7,7 +7,8 @@
   "scripts": {
     "start": "nodemon /index.js",
     "data:import": "node ./data-seeder/seeder.js",
-    "data:destroy": "node ./data-seeder/seeder.js -d"
+    "data:destroy": "node ./data-seeder/seeder.js -d",
+    "build" : "npm install && npm install --prefix ../client && npm run build --prefix ../client"
   },
   "author": "Sumit Kumar Singh",
   "license": "ISC",
