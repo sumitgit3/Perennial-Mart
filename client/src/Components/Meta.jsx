@@ -1,6 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
-const Meta = ({title='Welcome to Perenial Mart',description='A reliable and continously available ecommerce site',keywords='fast,perenial,mart,ecommerce'}) => {
+const Meta = ({title='Welcome to Perennial Mart',description='A reliable and continously available ecommerce site',keywords='fast,perenial,mart,ecommerce'}) => {
   return (
     <Helmet>
         <title>{title}</title>

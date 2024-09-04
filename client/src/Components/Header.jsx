@@ -33,7 +33,7 @@ const Header = () => {
             <Navbar bg='dark' data-bs-theme="dark" expand='lg' collapseOnSelect>
                 <Container>
                     <LinkContainer to='/'>
-                        <Navbar.Brand>Perenial Mart</Navbar.Brand>
+                        <Navbar.Brand>Perennial Mart</Navbar.Brand>
                     </LinkContainer>
                     {/* Toggle button for collapsing Navbar in smaller screens */}
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
