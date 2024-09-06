@@ -37,8 +37,8 @@ const PlaceOrderScreen = () => {
             }).unwrap();
             dispatch(cartActions.clearCartItems());
             navigate(`/order/${res._id}`);
-        } catch (error) {
-            toast.error(error?.data?.Message);
+        } catch (err) {
+            toast.error(err?.data?.message || err.error);
         }
     }
     return (
@@ -114,7 +114,7 @@ const PlaceOrderScreen = () => {
                                 </Row>
                             </ListGroupItem>
                             {isError? (
-                                <ListGroupItem><Message variant={'danger'}>{isError}</Message></ListGroupItem>
+                                <ListGroupItem><Message variant={'danger'}>Failed to place order! Retry</Message></ListGroupItem>
                             ):(<></>)}
                             <ListGroupItem>
                                 <Button onClick={placeOrderHandler} type='button' className='btn-block' variant='primary' disabled={cart.cartItems.length===0}>Place Order</Button>
