@@ -6,7 +6,6 @@ import { useFetchTopProductsQuery } from '../redux/features/products/productApiS
 
 const ProductCarousel = () => {
     const { data: products, isLoading, err } = useFetchTopProductsQuery(3);
-    console.log(products);
     return (
         isLoading ? <Spinner /> : err ? <Message variant={'danger'}>{err?.data?.message || err.error}</Message> :
          <Carousel pause={'hover'} data-bs-theme="dark" className='bg-secondary mb-4'>

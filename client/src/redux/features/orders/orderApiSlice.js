@@ -1,5 +1,5 @@
 import apiSlice from "../api/apiSlice";
-import { ORDERS_URL, PAYPAL_URL } from "../api/constants";
+import { ORDERS_URL, PAYMENT_URL } from "../api/constants";
 
 const orderApiSlice = apiSlice.injectEndpoints({
     endpoints:(builder)=>({
@@ -23,12 +23,6 @@ const orderApiSlice = apiSlice.injectEndpoints({
                 body:{...details}
             })
         }),
-        getPayPalClientId:builder.query({
-            query:()=>({
-                url:PAYPAL_URL,
-            }),
-            keepUnusedDataFor:5
-        }),
         getMyOrders:builder.query({
             query:()=>({
                 url:`${ORDERS_URL}/myorders`,
@@ -47,6 +41,25 @@ const orderApiSlice = apiSlice.injectEndpoints({
                 method:'PUT',
             })
         }),
+        createPaymentOrder:builder.mutation({
+            query:(orderId)=>({
+                url:`${PAYMENT_URL}/${orderId}`,
+                method:'POST'
+            })
+        }),
+        getRazorPayKeyId:builder.query({
+            query:()=>({
+                url:PAYMENT_URL,
+            }),
+            keepUnusedDataFor:5
+        }),
+        verifyPayment:builder.mutation({
+            query:(data)=>({
+                url:`${PAYMENT_URL}/verify`,
+                method:'POST',
+                body:data
+            })
+        }),
     })
 });
 
@@ -56,5 +69,9 @@ export const {useCreateOrderMutation,
         usePayOrderByIdMutation,
         useGetMyOrdersQuery,
         useGetAllOrdersQuery,
-        useDeliverOrderMutation
+        useDeliverOrderMutation,
+        //razor pay
+        useCreatePaymentOrderMutation,
+        useGetRazorPayKeyIdQuery,
+        useVerifyPaymentMutation
 } = orderApiSlice;

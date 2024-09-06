@@ -6,6 +6,7 @@ import productRouter from './routes/productRoutes.js'
 import userRouter from './routes/userRoutes.js'
 import orderRouter from './routes/orderRoutes.js'
 import uploadRouter from './routes/uploadRoutes.js'
+import paymentRouter from './routes/paymentRoutes.js'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 import cookieParser from 'cookie-parser'
 import path from 'path'
@@ -35,9 +36,8 @@ app.use('/api/users',userRouter);
 app.use('/api/orders',orderRouter);
 //upload route
 app.use('/api/upload',uploadRouter);
-
-//we are storing client id in server ,so paypal can get it
-app.get('/api/config/paypal',(req,res)=>res.send({clientId:process.env.PAYPAL_CLIENT_ID}));
+//payment route
+app.use('/api/payment',paymentRouter);
 
 //setting upload folder static
 const __dirname = path.resolve(); //set __dirname to current directory in es module

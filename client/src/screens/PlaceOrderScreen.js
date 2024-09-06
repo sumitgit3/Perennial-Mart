@@ -73,7 +73,7 @@ const PlaceOrderScreen = () => {
                                                     <Link to={`/products/${item.product}`}>{item.name}</Link>
                                                 </Col>
                                                 <Col md={4}>
-                                                    {item.qty} X ${item.price} = ${item.qty * item.price}
+                                                    {item.qty} X ₹{item.price} = ₹{item.qty * item.price}
                                                 </Col>
                                             </Row>
                                         </ListGroupItem>
@@ -92,25 +92,25 @@ const PlaceOrderScreen = () => {
                             <ListGroupItem>
                                 <Row>
                                     <Col>Items price:</Col>
-                                    <Col>${cart.itemsPrice}</Col>
+                                    <Col>₹{cart.itemsPrice}</Col>
                                 </Row>
                             </ListGroupItem>
                             <ListGroupItem>
                                 <Row>
                                     <Col>Shipping Cost:</Col>
-                                    <Col>${cart.shippingPrice}</Col>
+                                    <Col>₹{cart.shippingPrice}</Col>
                                 </Row>
                             </ListGroupItem>
                             <ListGroupItem>
                                 <Row>
                                     <Col>Tax(18%):</Col>
-                                    <Col>${cart.taxPrice}</Col>
+                                    <Col>₹{cart.taxPrice}</Col>
                                 </Row>
                             </ListGroupItem>
                             <ListGroupItem>
                                 <Row>
                                     <Col>Total Price:</Col>
-                                    <Col>${cart.totalPrice}</Col>
+                                    <Col>₹{cart.totalPrice}</Col>
                                 </Row>
                             </ListGroupItem>
                             {isError? (
